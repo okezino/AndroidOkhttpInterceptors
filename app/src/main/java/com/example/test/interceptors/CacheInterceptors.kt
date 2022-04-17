@@ -6,6 +6,11 @@ import okhttp3.Request
 import okhttp3.Response
 import java.util.concurrent.TimeUnit
 
+/**
+ * This is use to save data in the cache, when its not set on the serve side
+ * This is a network Interceptor
+ *
+ */
 class CacheInterceptors : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request : Request = chain.request()

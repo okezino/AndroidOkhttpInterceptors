@@ -1,27 +1,33 @@
 package com.example.test.network
 
 import com.example.test.BASE_URL
-import com.example.test.LogOutInterceptor
-import com.example.test.LoginInterceptor
+import com.example.test.interceptors.CacheInterceptors
+import com.example.test.interceptors.ForcedCacheInterceptors
+import com.example.test.interceptors.RequestModification
+import com.example.test.interceptors.ResponseModification
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkCall {
-    val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    val local = LoginInterceptor()
-    val locale = LogOutInterceptor()
+    private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    private val requestModification = RequestModification()
+    private val responseModification = ResponseModification()
+    private val cacheInterceptors = CacheInterceptors()
+    private val forcedCacheInterceptors = ForcedCacheInterceptors()
 
 
-    val okHttpClient = OkHttpClient()
+    private val okHttpClient = OkHttpClient()
         .newBuilder()
-        .addInterceptor(local)
-        .addInterceptor(logging)
-        .addNetworkInterceptor(locale)
+        .addNetworkInterceptor(logging)
+        .addInterceptor(requestModification)
+        .addInterceptor(forcedCacheInterceptors)
+        .addNetworkInterceptor(responseModification)
+        .addNetworkInterceptor(cacheInterceptors)
         .build()
 
-    val retrofit: Retrofit.Builder by lazy {
+    private val retrofit: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
