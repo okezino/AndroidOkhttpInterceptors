@@ -7,13 +7,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
 private const val TAG = "LoginInterceptor"
 class LoginInterceptor : Interceptor {
-    var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull();
+    var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
     override fun intercept(chain: Interceptor.Chain): Response {
         var request : Request = chain.request()
         val newUser = UserInput("okeh.joseph@yamail", "city")
-        var requestBody : RequestBody = RequestBody.create(mediaType,newUser.toString())
+        val requestBody : RequestBody = RequestBody.create(mediaType,newUser.toString())
 
-        request = request.newBuilder().method(request.method, requestBody).build()
+        request = request.newBuilder().method(request.method, requestBody)
+            .build()
       //  Log.d(TAG,request.body.toString())
         return chain.proceed(request)
     }
@@ -22,7 +23,7 @@ class LoginInterceptor : Interceptor {
 
 class LogOutInterceptor : Interceptor {
     private  val TAGE = "LogOutInterceptor"
-    var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull();
+    var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
     override fun intercept(chain: Interceptor.Chain): Response {
         var userResponse = UserResponse("gfcdcsxszz")
         var resBody  = ResponseBody.create(mediaType,Gson().toJson(userResponse))

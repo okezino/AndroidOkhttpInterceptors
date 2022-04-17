@@ -1,5 +1,7 @@
-package com.example.test
+package com.example.test.network
 
+import com.example.test.UserInput
+import com.example.test.UserResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

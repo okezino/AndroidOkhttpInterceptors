@@ -1,4 +1,4 @@
-package com.example.test
+package com.example.test.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.test.network.NetworkCall
+import com.example.test.R
+import com.example.test.UserInput
+import com.example.test.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

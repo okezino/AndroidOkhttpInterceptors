@@ -1,5 +1,8 @@
-package com.example.test
+package com.example.test.network
 
+import com.example.test.BASE_URL
+import com.example.test.LogOutInterceptor
+import com.example.test.LoginInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
