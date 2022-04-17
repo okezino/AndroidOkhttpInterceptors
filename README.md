@@ -32,5 +32,38 @@ Retrofit for our network call service.
  ### Network Interceptor 
  These are interceptor that makes modification or are run before the network call coming from server  enters the Okhttp Core or exiting the Okhttp core to server and then into the application, there are called using the addNetworkInterceptor()
  
+ ## Creation of interceptors 
+  We will create and interceptor, we will break each component of the interceptor and talk about it, to create an interceptor , create a classs and implement the interceptor Interface 
+  ```
+ class ModifyInputBody : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        /**
+         * Our API Call will be intercepted here
+         */
+    }
+}
+```
+We need to override the intercept function and in the block of the function, we can get access to the Request and even the Response at this point, after modifying the Request or the Response , we will return the new Response back to the network for transmitting. 
+
+### Working on the request 
+  in other to get the request, we will use chain.request()
+  in other to modify the request we will use the newBuilder() on the request, modify the request and call the build() function to build it . 
+  with the newbuilder() we can get access to a lot of Request  properties we can change . examples are addHeader, deleteHeader,Post, CacheControl etc .
+  
+  In modifing the request body, i will need to create a Requestbody Object and since its a Post request, i will add it to the request using the Post function and build the new request. 
+  
+```
+  override fun intercept(chain: Interceptor.Chain): Response {
+         var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
+         val newUser = UserInput("okeh.joseph@ymail", "$Github4")
+         val requestBody : RequestBody = Request.create(mediaType, newUser.toString())
+         val request : Request = chain.request()
+             request = request.newBuilder().Post(requestBody).build()
+             
+         return chain.proceed(request)
+    }
+
+```
+ 
  
   
