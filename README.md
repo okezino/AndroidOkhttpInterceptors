@@ -80,7 +80,7 @@ var request = chain.request()
   override fun intercept(chain: Interceptor.Chain): Response {
        val mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
        val userResponse = UserResponse(token = "hasfhgfJGSVGSvzvgzhvcgvgczgcvzg")
-       val responseBody = ResponseBody.create(mediaType, Gson.toJson(userResponse))
+       val responseBody = ResponseBody.create(mediaType, Gson().toJson(userResponse))
        val request = chain.request()
        
        
