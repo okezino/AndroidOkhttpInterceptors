@@ -53,17 +53,47 @@ We need to override the intercept function and in the block of the function, we 
   In modifing the request body, i will need to create a Requestbody Object and since its a Post request, i will add it to the request using the Post function and build the new request. 
   
 ```
+var request = chain.request()
+
+-----------------------------------------------------------------
   override fun intercept(chain: Interceptor.Chain): Response {
          var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
          val newUser = UserInput("okeh.joseph@ymail", "$Github4")
          val requestBody : RequestBody = Request.create(mediaType, newUser.toString())
          val request : Request = chain.request()
-             request = request.newBuilder().Post(requestBody).build()
+             request = request.newBuilder()
+                              .Post(requestBody)
+                              .build()
              
          return chain.proceed(request)
     }
 
 ```
+
+### Working on the Response 
+ so lets learn how to modify or rewrite the response we are geting, we need to create a Response object to do so. 
+ 
+ ```
+ var response = chain.proceed(Request())
+ -------------------------------------------------------
+ 
+  override fun intercept(chain: Interceptor.Chain): Response {
+       val mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
+       val userResponse = UserResponse(token = "hasfhgfJGSVGSvzvgzhvcgvgczgcvzg")
+       val responseBody = ResponseBody.create(mediaType, Gson.toJson(userResponse))
+       val request = chain.request()
+       
+       
+       
+       var response = chain.proceed(requeest)
+                       .newBuilder()
+                       .code(401)
+                       .body(responseBody)
+                       
+      return response.build()
+    }
+ 
+ ```
  
  
   
