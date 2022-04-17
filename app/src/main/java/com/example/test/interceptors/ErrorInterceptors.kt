@@ -11,23 +11,24 @@ class ErrorInterceptors : Interceptor {
 
         when(response.code){
              400 ->  {
-                 response.newBuilder()
-                     .message("")
+                response =  response.newBuilder()
+                     .message("").build()
              }
              401 -> {
-                 response.newBuilder()
-                     .message("")
+               response =   response.newBuilder()
+                     .message("").build()
              }
              403 -> {
-                 response.newBuilder()
-                     .message("")
+                response =  response.newBuilder()
+                     .message("").build()
              }
             404 -> {
-                response.newBuilder()
-                    .message("")
+               response =  response.newBuilder()
+                    .message("").build()
             }
-            else -> {   response.newBuilder()
-                .message("")
+            else -> {
+                response = response.newBuilder()
+                .message("").build()
             }
 
         }
