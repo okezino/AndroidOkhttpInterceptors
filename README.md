@@ -8,3 +8,12 @@ before leaving the application and  before entering the application, giving deve
 
 in this project , we will build custom interceptors and use already default interceptors , we will be using Okttp Library , Okttp Library host the Interceptor class and we will be using 
 Retrofit for our network call service. 
+```
+ // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    
+    //Okttp3
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+```
