@@ -95,5 +95,75 @@ var request = chain.request()
  
  ```
  
+ ### UseCase of Custome Interceptor
+ I will be using the 2 interceptor i created to show how to add an interceptor to a networkService in making network call, so i will be creating an instance of Retrofit, a client and my interceptors 
+ 
+ #### Interceptors
+ This takes a network call in the application, change the request Post Body and add a new Request body
+ ```
+ Class ApplicationInterceptor : Interceptor{
+   override fun intercept(chain: Interceptor.Chain): Response {
+         var mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
+         val newUser = UserInput("okeh.joseph@ymail", "$Github4")
+         val requestBody : RequestBody = Request.create(mediaType, newUser.toString())
+         val request : Request = chain.request()
+             request = request.newBuilder()
+                              .Post(requestBody)
+                              .build()
+             
+         return chain.proceed(request)
+    }
+ }
+ ```
+ 
+ This takes a network response, regardless of the response, change the code to 200 and change the reponse body to a token json file 
+ 
+ ```
+ Class NetworkInterceptor : Interceptor{
+ 
+  override fun intercept(chain: Interceptor.Chain): Response {
+       val mediaType = "text/plain; charset=utf-8".toMediaTypeOrNull()
+       val userResponse = UserResponse(token = "hasfhgfJGSVGSvzvgzhvcgvgczgcvzg")
+       val responseBody = ResponseBody.create(mediaType, Gson.toJson(userResponse))
+       val request = chain.request()
+       
+       
+       
+       var response = chain.proceed(requeest)
+                       .newBuilder()
+                       .code(401)
+                       .body(responseBody)
+                       
+      return response.build()
+    }
+ 
+ }
+ ```
+ 
+ 
+ ### Okhttp Client 
+ Now we have our interceptor, lets create an OkHTTP client 
+ 
+ ```
+ val modifyRequestData = ApplicationInterceptor()
+ var modifyResponseData = NetworkInterceptor() 
+ var okhttClient = OkhttpClient.newBuilder()
+                   .addInterceptor(modifyRequestData)
+                   .addNetworkInterceptor(modifyResponseData)
+                   .build()
+ ```
+ ### Retrofit Client
+ ```
+ var retrofitInstance = Retrofit.Builder()
+                        .baseUrl("http://www.example.com")
+                        .client(okhttpClient)
+                        .addConverterFactory(GsonConverterFactory.create()).build()
+ 
+ var NetworkApiService = retrofit.create(NetworkService::Class.java)
+                        
+  ```
+  
+  Now you can use the NetworkApiService to make netwprk calls 
+ 
  
   
